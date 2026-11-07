@@ -6,18 +6,18 @@ import { fileURLToPath } from 'node:url';
 import { dirname, resolve } from 'node:path';
 const here=dirname(fileURLToPath(import.meta.url));
 const source=(name)=>readFileSync(resolve(here,'..',name),'utf8');
-for(const file of ['app.js','data.js','workbench.js','model-studio.js']) new Script(source(file),{filename:file});
+for(const file of ['app.js','data.js','workbench.js','model-studio.js','asset-core.js','asset-lab.js']) new Script(source(file),{filename:file});
 const html=source('index.html');
-for(const path of ['styles.css','spectrum.css','workbench.css','model-studio.css','data.js','workbench.js','model-studio.js','app.js']){
+for(const path of ['styles.css','spectrum.css','workbench.css','model-studio.css','asset-lab.css','data.js','workbench.js','model-studio.js','asset-core.js','asset-lab.js','app.js']){
   assert(html.includes('href="'+path+'"')||html.includes('src="'+path+'"'), 'Missing resource: '+path);
 }
 const windowA={};
 runInNewContext(source('data.js'),{window:windowA});
 const data=windowA.HUB_DATA;
 assert(data,'Catalog must load');
-assert(data.docs.length>=26,'Expected expanded guide library');
-assert(data.standards.length>=23,'Expected official-source expansion');
-assert(data.paths.length>=6,'Expected spatial learning path');
+assert(data.docs.length>=28,'Expected expanded guide library');
+assert(data.standards.length>=26,'Expected official-source expansion');
+assert(data.paths.length>=7,'Expected spatial learning path');
 for(const category of ['docs','technologies','tools']){
   const ids=data[category].map(entry=>entry.id);
   assert.equal(ids.length,new Set(ids).size,'Duplicate ids in '+category);
@@ -52,4 +52,17 @@ assert(source('app.js').includes("id:'modelstudio'"),'Studio must be in navigati
 assert(source('app.js').includes('window.HUB_MODEL_STUDIO.init()'),'Studio must initialize');
 assert(data.docs.some(x=>x.id==='gltf-delivery'),'GLB delivery guide must exist');
 assert(data.docs.some(x=>x.id==='pbr-live-editing'),'PBR editing guide must exist');
+const assetWindow={};
+runInNewContext(source('asset-core.js'),{window:assetWindow,TextDecoder,TextEncoder});
+runInNewContext(source('asset-lab.js'),{window:assetWindow,document:{}});
+const assetLab=assetWindow.HUB_ASSET_LAB;
+assert(assetWindow.HUB_ASSET_CORE&&assetLab&&typeof assetLab.render==='function'&&typeof assetLab.init==='function');
+const assetMarkup=assetLab.render();
+for(const id of ['ao-file','ao-status','ao-metrics','ao-images','ao-warnings','ao-opt-fields','ao-start','ao-download']){
+  assert(assetMarkup.includes('id="'+id+'"'),'Asset Lab missing '+id);
+}
+assert(source('app.js').includes("id:'assetlab'"),'Optimization lab must be in main navigation');
+assert(source('app.js').includes('window.HUB_ASSET_LAB.init()'),'Optimization lab route must initialize');
+assert(data.docs.some(x=>x.id==='asset-performance'),'Missing optimization guide');
+assert(data.docs.some(x=>x.id==='texture-optimization'),'Missing texture guide');
 console.log('XR-SC-Hub smoke tests PASS — syntax, routes, catalogs, reference links and lab markup.');
