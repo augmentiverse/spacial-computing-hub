@@ -127,7 +127,7 @@
     let cursor=0;
     views.forEach((view,i)=>{
       const old=src.bufferViews[i],content=replacements.get(i)||original.subarray(old.byteOffset||0,(old.byteOffset||0)+old.byteLength);
-      checked(content instanceof Uint8Array&&content.byteLength>0,'Missing binary contents for bufferView '+i);
+      checked(ArrayBuffer.isView(content)&&content.BYTES_PER_ELEMENT===1&&content.byteLength>0,'Missing binary contents for bufferView '+i);
       checked(content.byteLength<=MAX_FILE,'Replacement exceeds safe size limit.');
       view.byteOffset=cursor;view.byteLength=content.byteLength;
       outputPieces.push({offset:cursor,data:content});
