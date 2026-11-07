@@ -87,7 +87,7 @@ window.HUB_DATA = (() => {
     S('XR Accessibility User Requirements','W3C WAI','Accessibility','Research-based user needs for multimodal accessible immersive XR.','https://www.w3.org/TR/xaur/','W3C Working Group Note'),
     S('WebXR Rendering Guide','Mozilla / MDN','WebXR','Frame callbacks, per-eye rendering and timing guidance.','https://developer.mozilla.org/en-US/docs/Web/API/WebXR_Device_API/Rendering','Developer reference'),
     S('model-viewer AR examples','Google / model-viewer project','WebAR','Comparison of WebXR, Scene Viewer and Quick Look AR entry points.','https://modelviewer.dev/examples/augmentedreality/','Official examples'),
-    S('Three.js PerspectiveCamera','Three.js','Graphics','Vertical field of view and perspective-camera parameters.','https://threejs.org/docs/#api/en/cameras/PerspectiveCamera','Official API documentation'),
+    S('Three.js PerspectiveCamera','Three.js','Graphics','Vertical field of view and perspective-camera parameters.','https://threejs.org/docs/pages/PerspectiveCamera.html','Official API documentation'),
     S('WebXR Device API','W3C','WebXR','Immersive XR sessions, reference spaces, inputs and frame scheduling.','https://www.w3.org/TR/webxr/'),
     S('WebXR Augmented Reality Module','W3C / Immersive Web','WebXR','AR-specific immersive session definitions.','https://immersive-web.github.io/webxr-ar-module/','Editor draft'),
     S('WebXR Hit Test','W3C / Immersive Web','WebXR','Ray-based hit testing against real-world features.','https://immersive-web.github.io/hit-test/','Editor draft'),
@@ -256,7 +256,7 @@ const renderer = new THREE.WebGLRenderer({ antialias: true });
       'Use yaw, pitch and roll to describe orientation around axes, noting that the order of rotations matters.',
       'Adjust vertical field of view and camera distance in the Spatial Workbench and compare how the cube appears.',
       'Use a proper matrix/quaternion library for production transforms, especially with nested rotations.'
-    ],['Perspective projection is not the same as physically calibrated headset optics.','Avoid mixing degrees and radians in custom math.','Keep meaningful numeric measurements and text alternatives alongside a visual 3D explanation.'],'https://threejs.org/docs/#api/en/cameras/PerspectiveCamera'),
+    ],['Perspective projection is not the same as physically calibrated headset optics.','Avoid mixing degrees and radians in custom math.','Keep meaningful numeric measurements and text alternatives alongside a visual 3D explanation.'],'https://threejs.org/docs/pages/PerspectiveCamera.html'),
     D('xr-frame-budget','Stereo rendering and practical XR frame budgets','Performance','Intermediate',16,'Estimate the scale of a stereo render workload before measuring on hardware.','A display with refresh rate R provides approximately 1000/R milliseconds per displayed frame. Stereo rendering may involve two eyes at substantial resolution, but pixel counts alone cannot predict GPU performance.',[
       'Choose a target headset, runtime and refresh rate instead of assuming one universal XR target.',
       'Record the render-target width and height per eye; do not confuse panel resolution with renderer allocation.',
