@@ -84,6 +84,8 @@ window.HUB_DATA = (() => {
   );
   const S=(name,org,topic,summary,url,level='Primary specification')=>({name,org,topic,summary,url,level});
   const standards=[
+    S('model-viewer scene graph and materials','Google / model-viewer project','3D authoring','Official API and examples for glTF material parameters, color, metalness and roughness.','https://modelviewer.dev/examples/scenegraph/','Official documentation'),
+    S('glTF Validator','Khronos Group','3D formats','Validate glTF 2.0 and GLB resources and verify compliance after editing.','https://github.khronos.org/glTF-Validator/','Official validator'),
     S('XR Accessibility User Requirements','W3C WAI','Accessibility','Research-based user needs for multimodal accessible immersive XR.','https://www.w3.org/TR/xaur/','W3C Working Group Note'),
     S('WebXR Rendering Guide','Mozilla / MDN','WebXR','Frame callbacks, per-eye rendering and timing guidance.','https://developer.mozilla.org/en-US/docs/Web/API/WebXR_Device_API/Rendering','Developer reference'),
     S('model-viewer AR examples','Google / model-viewer project','WebAR','Comparison of WebXR, Scene Viewer and Quick Look AR entry points.','https://modelviewer.dev/examples/augmentedreality/','Official examples'),
@@ -293,8 +295,27 @@ const renderer = new THREE.WebGLRenderer({ antialias: true });
       'Test device and runtime combinations, explain any sensitive permissions and revalidate after updates.'
     ],['Do not confuse detecting navigator.xr with proving immersive-ar support.','Camera permissions and world tracking require clear user trust boundaries.','Record your tested browser/runtime versions alongside publishing dates.'],'https://www.w3.org/TR/webxr/')
   );
-    const P=(id,name,level,duration,summary,color,lessonIds,outcomes)=>({id,name,level,duration,summary,color,lessonIds,outcomes});
+    docs.push(
+    D('gltf-delivery','Prepare and publish a self-contained GLB','3D assets','Beginner',17,'Package glTF geometry, materials and textures so a browser-based viewer can load them reliably.','GLB is a binary glTF 2.0 container. To publish a practical asset, validate its buffers, textures, physically based materials, units and compression features. A GLB can contain embedded resources, while external references require additional hosting.',[
+      'Choose a model from Blender or another authoring tool and verify that its geometry is measured in meters.',
+      'Export glTF 2.0 as .glb, embedding supported textures and buffers. Check object orientation and animation playback.',
+      'Run the official Khronos glTF Validator and repair errors before testing visually.',
+      'Open the local .glb in the Spatial 3D Model Studio, compare environment and material settings, then review its physical bounds.',
+      'Optimise heavy textures and meshes with glTF Transform or another validator-driven workflow, then repeat the tests.',
+      'Serve the final GLB through HTTPS with suitable content-type and caching; provide clear licensing and attribution for the asset.'
+    ],['A .gltf file with separate .bin and texture files needs additional resource hosting; this studio intentionally supports self-contained .glb files only.','Draco and Meshopt compression require supported runtime decoders; test the actual target viewer.','Publishing on the web does not guarantee an immersive AR experience on every device.'],'https://registry.khronos.org/glTF/specs/2.0/glTF-2.0.html'),
+    D('pbr-live-editing','PBR material factors, lighting and GLB export','3D assets','Intermediate',19,'Understand how changing base color, metalness, roughness and environment light affects a 3D surface.','The glTF metallic-roughness model separates intrinsic material factors from the lighting environment. Adjusting model-viewer material factors can be educational, but an exported asset must be revalidated because extension support and generated resources may vary.',[
+      'Open a self-contained GLB in the 3D Model Studio and select one of its materials.',
+      'Change its base-color factor while observing that textures and alpha blending can affect the visible color.',
+      'Adjust metallic and roughness factors while comparing neutral and directional environments.',
+      'Change viewer exposure separately from material factors to see how scene lighting affects the image.',
+      'Export the edited GLB if the viewer supports the current asset, then inspect the output in a second viewer and run glTF Validator.',
+      'Preserve a copy of the original asset: experimental edits do not replace professional material-authoring workflows.'
+    ],['The viewer background is not the same thing as an HDR environment or a physical directional light rig.','A material preview does not prove physically accurate colors on a headset or mobile device.','The original model may contain copyrighted content; verify the asset license before republishing.'],'https://modelviewer.dev/examples/scenegraph/')
+  );
+  const P=(id,name,level,duration,summary,color,lessonIds,outcomes)=>({id,name,level,duration,summary,color,lessonIds,outcomes});
   const paths=[
+    P('asset-lab','GLB Asset Studio','Beginner to intermediate','~75 min','Prepare a model for reliable real-time viewing, investigate physically based rendering and validate an edited export.','blue',['formats','gltf-delivery','materials','pbr-live-editing','ar-world-scale'],['Inspect and validate a GLB asset','Understand material versus lighting controls','Test and revalidate an edited asset']),
     P('first','Foundations of the Spatial Web','Beginner','~45 min','Understand the landscape and create your first interactive scene.','cyan',['intro','choose','first-scene','formats'],['Know how AR, VR and WebXR differ','Run an editable 3D scene','Select an appropriate output format']),
     P('creator','WebAR Creator','Beginner to intermediate','~55 min','From a 3D object to a device-friendly web-based AR experience.','violet',['webar-guide','model-pipeline','formats','materials'],['Prepare a GLB asset','Understand supported AR launch modes','Validate a simple delivery pipeline']),
     P('engineer','WebXR Developer','Intermediate','~60 min','Investigate the immersive browser runtime and production constraints.','blue',['xr-lifecycle','first-scene','performance','deployment'],['Detect immersive support','Understand session lifecycle','Apply real-device performance checks']),
@@ -303,6 +324,10 @@ const renderer = new THREE.WebGLRenderer({ antialias: true });
   ];
   const G=(word,definition)=>({word,definition});
   const glossary=[
+    G('GLB container','Binary package for glTF 2.0 assets, holding JSON and binary chunks, and potentially embedded image and buffer data.'),
+    G('Metalness','PBR metallic-roughness factor controlling how much a material behaves like a metal.'),
+    G('Roughness','PBR parameter influencing the spread and sharpness of specular highlights.'),
+    G('Environment lighting','Illumination and reflections supplied by a surrounding scene or image-based light probe.'),
     G('Camera distance','Distance between the projection viewpoint and an object; influences its apparent size under perspective.'),
     G('Projection matrix','Transformation used to map camera-space geometry into normalized screen coordinates.'),
     G('Yaw / pitch / roll','Angular rotations used to describe orientation; conventions and rotation order matter.'),
