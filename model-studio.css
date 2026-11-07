@@ -1,0 +1,80 @@
+/* Spatial 3D Model Studio — Spectrum V2 visual system */
+.ms-intro{position:relative;overflow:hidden;border:1px solid #3c75b3;background:radial-gradient(ellipse at 88% 0%,#ff4d622d,transparent 50%),radial-gradient(circle at 60% 115%,#f5c53625,transparent 52%),linear-gradient(120deg,#142d55,#111b36);padding:34px 36px;border-radius:20px;margin-bottom:20px;box-shadow:inset 0 1px #c5e4ff1b,0 18px 50px #050b2060}
+.ms-intro::before{content:"";position:absolute;top:-80px;right:-80px;height:300px;width:300px;border:1px solid #5facff66;border-radius:50%;box-shadow:0 0 0 48px #469bff13,0 0 0 96px #ff525e0a;pointer-events:none}
+.ms-intro h1{font-size:clamp(30px,4.2vw,46px);letter-spacing:-1.5px;line-height:1.12;position:relative;margin:10px 0 14px}
+.ms-intro h1 em{font-style:normal;color:#ffd14c}
+.ms-intro p{position:relative;color:#b8cde7;max-width:740px;font-size:13px;line-height:1.75;margin:0}
+.ms-shortcuts{position:relative;display:flex;gap:9px;flex-wrap:wrap;margin-top:19px}
+.ms-shortcuts a{border:1px solid #4d719c;background:#152947;color:#ffd975;border-radius:30px;font-size:11px;font-weight:700;padding:6px 12px}
+.ms-shortcuts a:hover{border-color:#ffd975;color:#fff}
+.ms-layout{display:grid;grid-template-columns:minmax(0,1.6fr) minmax(270px,.92fr);gap:18px;align-items:start}
+.ms-stage-wrap,.ms-panel{border:1px solid #36567f;background:linear-gradient(150deg,#172a48,#101c35);border-radius:16px;box-shadow:inset 0 1px #ffffff12,0 12px 34px #040b1d4a;min-width:0}
+.ms-stage-wrap{overflow:hidden}
+.ms-head{background:#192b4b;border-bottom:1px solid #385783;display:flex;align-items:center;justify-content:space-between;gap:10px;padding:12px 15px;flex-wrap:wrap;color:#ceddf5;font-size:10px;font-weight:800;letter-spacing:1.15px}
+.ms-status-light{display:inline-block;width:7px;height:7px;background:#ffd14c;border-radius:50%;margin-right:7px;box-shadow:0 0 12px #ffd14c99}
+.ms-head-actions{display:flex;gap:6px}
+.ms-mini{color:#dceafe;background:#142946;border:1px solid #4771a4;border-radius:7px;padding:6px 10px;font-size:10px;font-weight:700;letter-spacing:0}
+.ms-mini:hover{border-color:#ffd14c;color:#ffe7a5}
+.ms-stage{height:clamp(350px,48vw,570px);position:relative;overflow:hidden;background:radial-gradient(circle at 50% 44%,#244a7c80,transparent 59%),linear-gradient(155deg,#0c1a35,#080f20)}
+.ms-stage[data-background="light"]{background:radial-gradient(circle at 55% 40%,#bfdcffaa,transparent 66%),linear-gradient(135deg,#718eab,#354c68)}
+.ms-stage[data-background="sunset"]{background:radial-gradient(circle at 51% 43%,#ffab5266,transparent 60%),linear-gradient(135deg,#51253d,#101e3b)}
+.ms-stage::before{content:"";position:absolute;inset:auto -12% -38% -12%;height:75%;transform:perspective(480px) rotateX(60deg);background-image:linear-gradient(#6b9ed024 1px,transparent 1px),linear-gradient(90deg,#6b9ed024 1px,transparent 1px);background-size:44px 44px;mask-image:linear-gradient(transparent,#000 40%,transparent);pointer-events:none}
+.ms-stage model-viewer{position:relative;width:100%;height:100%;background:transparent;--poster-color:transparent;z-index:1;outline-offset:-3px}
+.ms-empty{position:absolute;inset:0;z-index:2;display:flex;align-items:center;justify-content:center;flex-direction:column;text-align:center;padding:25px;gap:10px;pointer-events:none}
+.ms-empty>*{pointer-events:auto}
+.ms-empty-glyph{font-size:56px;line-height:1;color:#69bbff;text-shadow:0 0 36px #488eff85}
+.ms-empty strong{font-size:19px;color:#f8fbff}
+.ms-empty p{font-size:12px;color:#adc3e0;margin:0 0 7px;max-width:280px}
+.ms-stage-footer{position:absolute;bottom:10px;left:12px;right:12px;display:flex;justify-content:space-between;gap:10px;flex-wrap:wrap;font-size:10px;color:#d1e3fa;z-index:3;pointer-events:none;text-shadow:0 2px 6px #07142f}
+#ms-object-name{color:#ffda78;font-weight:800;text-align:right;max-width:65%;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.ms-upload{display:flex;align-items:stretch;gap:11px;padding:14px;flex-wrap:wrap}
+.ms-drop{border:1px dashed #528cc1;border-radius:11px;background:#0e213c;display:flex;align-items:center;gap:12px;padding:12px 15px;flex:1;min-width:min(100%,260px);cursor:pointer;position:relative}
+.ms-drop.dragging{border-color:#ffd14c;background:#203c62}
+.ms-upload-icon{font-size:23px;color:#ffd14c}
+.ms-drop strong{display:block;font-size:11px;color:#eef6ff}
+.ms-drop small{display:block;font-size:10px;color:#9eb8d7;margin-top:3px}
+.ms-drop input[type=file]{position:absolute;inset:0;width:100%;height:100%;opacity:0;cursor:pointer}
+.ms-drop:focus-within{outline:2px solid #ffd14c;outline-offset:2px}
+.ms-upload>.button-secondary{align-self:center}
+#ms-status{margin:0 14px 14px;font-size:11px;line-height:1.55;background:#132c47;color:#bfdbf7;border-left:3px solid #70baff;padding:9px 13px;border-radius:0 7px 7px 0}
+#ms-status[data-state="error"]{background:#3e2437;border-color:#ff6275;color:#ffe4ea}
+.ms-metrics{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:7px;padding:0 14px 17px}
+.ms-metrics div{border:1px solid #2b4974;background:#12243f;border-radius:9px;padding:11px 8px;min-width:0}
+.ms-metrics strong{display:block;color:#edf6ff;font-size:13px;font-variant-numeric:tabular-nums;overflow-wrap:anywhere}
+.ms-metrics span{display:block;color:#95adce;font-size:9px}
+.ms-sidebar{display:flex;flex-direction:column;gap:13px}
+.ms-panel{padding:21px}
+.ms-panel h2{font-size:17px;margin:5px 0 8px}
+.ms-panel p{font-size:11px;color:#a6bddb;line-height:1.65;margin:0 0 17px}
+.ms-eyebrow{font-size:10px;color:#ffdb6b;letter-spacing:1.55px;font-weight:800}
+.ms-range{display:grid;grid-template-columns:1fr auto;gap:6px 8px;margin-top:15px}
+.ms-range span,.ms-select-label,.ms-color-row{color:#c6d7ed;font-size:11px;font-weight:650}
+.ms-range output{color:#ffd474;font-size:11px;font-variant-numeric:tabular-nums}
+.ms-range input[type=range]{grid-column:1/-1;width:100%;accent-color:#ffd14c;cursor:pointer}
+.ms-range input:disabled{opacity:.4;cursor:not-allowed}
+.ms-select-label{display:flex;flex-direction:column;gap:7px;margin-top:15px}
+.ms-select-label select{width:100%;border:1px solid #426288;background:#0d1d36;color:#f2f6ff;padding:9px 10px;border-radius:8px;min-width:0}
+.ms-select-label select:disabled{opacity:.6}
+.ms-color-choice{display:flex;gap:12px;justify-content:space-between;align-items:center;margin-top:18px;font-size:11px;color:#ccd9ea}
+.ms-color-choice>div{display:flex;gap:9px}
+.ms-swatch{width:27px;height:27px;border:2px solid #3d628b;border-radius:50%;background:#142a50;cursor:pointer}
+.ms-swatch[data-ms-bg="light"]{background:#9ccdf5}
+.ms-swatch[data-ms-bg="sunset"]{background:linear-gradient(135deg,#ffb64d,#d24664)}
+.ms-swatch.active,.ms-swatch:hover{border-color:#ffd14c;box-shadow:0 0 0 3px #ffd14c23}
+.ms-color-row{display:flex;justify-content:space-between;align-items:center;margin:15px 0}
+.ms-color-row input{width:52px;height:35px;border:1px solid #5c83bb;border-radius:8px;background:#0a203f;cursor:pointer}
+.ms-color-row input:disabled{opacity:.4}
+.ms-panel-buttons{display:flex;gap:9px;flex-wrap:wrap;margin-top:19px}
+.ms-panel-buttons button{font-size:10px;flex:1;min-width:115px}
+.ms-hint{display:block;font-size:10px;line-height:1.6;color:#97abc8;margin-top:12px}
+.ms-disclaimer{background:linear-gradient(140deg,#192b4b,#10213a);border:1px solid #35547b;border-radius:16px;margin-top:18px;padding:23px}
+.ms-disclaimer h2{font-size:20px;margin:6px 0 17px}
+.ms-disclaimer p{font-size:11px;color:#b0c3dd;line-height:1.8;margin:16px 0 0}
+.ms-cards{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:10px}
+.ms-cards a{padding:14px;border:1px solid #395985;background:#122440;border-radius:11px;display:flex;flex-direction:column;gap:4px}
+.ms-cards a:hover{border-color:#ffcd4a;background:#223858}
+.ms-cards strong{color:#f3f6ff;font-size:12px}
+.ms-cards span{color:#ffd57d;font-size:10px;line-height:1.45}
+@media(max-width:1140px){.ms-layout{grid-template-columns:1fr}.ms-sidebar{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));align-items:start}.ms-sidebar>.ms-panel:first-child{grid-column:1/-1}}
+@media(max-width:650px){.ms-intro{padding:26px 20px}.ms-stage{height:350px}.ms-sidebar{display:flex}.ms-metrics{grid-template-columns:repeat(2,minmax(0,1fr))}.ms-cards{grid-template-columns:1fr}.ms-panel-buttons button{min-width:125px}.ms-head-actions{flex-wrap:wrap}}
+@media(prefers-reduced-motion:reduce){.ms-stage::before{animation:none}.ms-swatch,.ms-cards a{transition:none!important}}
