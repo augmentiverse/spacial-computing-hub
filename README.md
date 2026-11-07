@@ -72,6 +72,22 @@ The new `#assetlab` workspace is a **privacy-first, free, dependency-free browse
 
 The knowledge library also adds the **Asset Optimization & Delivery** path, detailed guides on asset budgets and texture formats, official reference links and glossary entries. Unit tests for GLB parsing and byte-for-byte resource repacking are in `tests/asset-core.mjs`. Run `node tests/asset-core.mjs` and `node tests/smoke.mjs` before merging.
 
+## Edition 05 — XR Experience Gallery (preview)
+
+Open \`#gallery\` for an English-language **curated collection of 12 experiences**:
+
+- **8 offline runnable HTML demos:** holographic CSS 3D cube, perspective camera projections, pointer and keyboard parallax, accessible hotspots, WebGL GLSL shader, procedural (not photographic) 360° navigation, pointer-reactive particles and conceptual stereo disparity.
+- **3 connected demos:** Three.js 0.187.0 torus-knot study, A-Frame 1.8.0 WebXR/VR room and \`<model-viewer>\` 4.4.0 GLB astronaut viewer. These rely on free, externally hosted open-source JavaScript and sometimes sample assets. They are not offline demos.
+- **1 integrated workflow:** a deep link to the local Asset Optimization Lab for practical GLB inspections.
+
+The gallery provides category and runtime filters, global search integration, source links, guide recommendations, a live preview, and **copy/download full HTML** for each runnable demo. Samples load **only after a visitor chooses Run**, in an \`iframe sandbox="allow-scripts"\` without \`allow-same-origin\`, \`allow-popups\` or \`allow-forms\`, and with \`referrerpolicy="no-referrer"\`. This isolation deliberately restricts privileges and can prevent headset immersive mode inside the preview. For external demos, run the downloaded HTML on a trusted HTTPS origin and an actually supported device, after reviewing the code and network requests.
+
+All examples are educational **representations of concepts**, not assertions of universal WebXR, tracking, headset, camera or geospatial support. The 360 panorama uses a procedural landscape, not real-world imagery or geolocation. The stereo disparity viewer is only a 2D teaching comparison, not binocular output to a headset. The library links to official specifications and documentation, including [WebXR](https://www.w3.org/TR/webxr/), [A-Frame](https://aframe.io/docs/), [Three.js](https://threejs.org/manual/pages/installation.html), and [model-viewer](https://modelviewer.dev/docs/).
+
+Two new companion guides and an \`XR Experience Explorer\` learning path explain sandboxing, compatibility and how to turn a browser demo into a device-verified immersive experience. The implementation consists of \`experience-demos.js\`, \`experience-gallery.js\`, and \`experience-gallery.css\`; it preserves Spectrum V2 and the existing Spatial Workbench, 3D Model Studio and Asset Optimization Lab.
+
+**Local checks:** \`node tests/smoke.mjs && node tests/asset-core.mjs && node tests/gallery.mjs\`. The gallery test verifies all 12 records, offline-only source restrictions, pinned network runtimes, route connections, isolated preview permissions and lesson links. Full cross-browser and headset checks remain necessary prior to generalizing about runtime compatibility.
+
 ## Run
 
 Run a local static server from this directory:

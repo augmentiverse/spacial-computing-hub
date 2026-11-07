@@ -18,7 +18,11 @@ jobs:
           node --check model-studio.js
           node --check asset-core.js
           node --check asset-lab.js
+          node --check experience-demos.js
+          node --check experience-gallery.js
       - name: Validate catalog and lab routes
         run: node tests/smoke.mjs
       - name: Validate binary GLB parsing and safe repacking
         run: node tests/asset-core.mjs
+      - name: Validate XR Experience Gallery and isolated demos
+        run: node tests/gallery.mjs
