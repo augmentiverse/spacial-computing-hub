@@ -17,6 +17,22 @@ An independent, English-first portal for spatial computing, AR, VR, MR, WebXR, W
 
 No backend, API key, database, tracking SDK or paid API is required. External example libraries load from their official/CDN sources when online. User files remain on the device for the built-in inspection/conversion tools.
 
+## Edition 02 — Spatial Workbench (preview)
+
+The `#workbench` route adds three completely local, dependency-free interactive exercises:
+
+1. **3D orientation and camera projection** — yaw, pitch, roll, camera distance and vertical field-of-view sliders drive a Canvas-based 3D cube and reference axes. This is a perspective teaching simulation, not an XR headset emulator.
+2. **XR frame-budget estimator** — resolution per eye, view count, refresh target and linear render scale yield an approximate per-frame time and pixel workload. Results are illustrative; they do not benchmark the visitor's GPU.
+3. **AR real-world scale calculator** — estimate a uniform scale multiplier and physical output dimensions from the source asset's measured bounding box and target height.
+
+The knowledge library includes six companion articles, four additional primary references, a new five-lesson learning path and six glossary entries. These connect each calculation to the relevant source standards and warn about device compatibility and measurement limitations.
+
+All three modules work without an API key, uploads, a build system or third-party JavaScript. Navigation, CSS and educational catalog additions are implemented through `workbench.js`, `workbench.css`, `app.js` and `data.js`; the original Spectrum theme remains loaded before the new styling.
+
+### Checks
+
+Run `node tests/smoke.mjs` to validate the JavaScript, catalog entries, hyperlinks, lesson-to-path relationships and workbench markup. GitHub Actions also runs these dependency-free checks on pull requests and on the main branch.
+
 ## Run
 
 Run a local static server from this directory:
