@@ -53,6 +53,25 @@ Files selected from the local device are not uploaded to our servers, and blob U
 
 `<model-viewer>` by Google and contributors, Apache-2.0 license. Primary documentation: https://modelviewer.dev/docs/ ; materials and scene graph: https://modelviewer.dev/examples/scenegraph/ . glTF specification and validator by Khronos Group.
 
+## Edition 04 — Asset Optimization Lab (preview)
+
+The new `#assetlab` workspace is a **privacy-first, free, dependency-free browser analysis tool** for local glTF **.glb v2** files. It is implemented in `asset-core.js`, `asset-lab.js` and `asset-lab.css` and linked from the sidebar, homepage and global search.
+
+**What it actually does:**
+
+- Checks the GLB magic/version/byte length, JSON/BIN chunk layout and bufferView bounds (120 MiB file cap, 16 MiB JSON cap).
+- Reports mesh/primitive counts, estimated triangles, accessors, materials, animations and encoded texture bytes.
+- Reads width and height from embedded PNG/JPEG headers; estimates RGBA memory as `width × height × 4` bytes (not a real GPU measurement or mipmap estimate).
+- Warns about external resources, large files and images, and potentially incompatible extension layouts.
+- Exports an anonymized JSON report **locally**; the filename is recorded, but user files are never transmitted by our code.
+- Optionally **repackages core GLB assets** with aligned bufferViews while preserving each resource's original bytes; this may reclaim unused gaps.
+- Optionally **re-encodes embedded JPEG/PNG** images with browser Canvas at chosen resolution/quality and retains a replacement only if it is smaller. The MIME type remains unchanged (no undocumented extensions are added).
+- Validates the generated file's GLB container again and only offers download when the file actually shrank. Users should still run [Khronos glTF Validator](https://github.khronos.org/glTF-Validator/) and check the image fidelity in a 3D viewer.
+
+**Limitations and important warnings:** Automated GLB rewriting is restricted to simple, single-buffer core glTF assets **without extensions** and without external image references. Extensions such as `KHR_texture_basisu`, `EXT_meshopt_compression` and custom binary layouts are analysis-only. This lab does **not** compress meshes, create KTX2, transcode textures into GPU formats or prove XR hardware compatibility. PNG/JPEG recompression through Canvas can alter pixel values, color profiles or image metadata; preserve the original. Large model files and images may strain browser memory. Models with unusual scene structures or unsupported data should be optimized using dedicated tools such as [glTF Transform](https://gltf-transform.dev/cli) or [Khronos KTX Software](https://www.khronos.org/ktx/).
+
+The knowledge library also adds the **Asset Optimization & Delivery** path, detailed guides on asset budgets and texture formats, official reference links and glossary entries. Unit tests for GLB parsing and byte-for-byte resource repacking are in `tests/asset-core.mjs`. Run `node tests/asset-core.mjs` and `node tests/smoke.mjs` before merging.
+
 ## Run
 
 Run a local static server from this directory:
