@@ -84,6 +84,9 @@ window.HUB_DATA = (() => {
   );
   const S=(name,org,topic,summary,url,level='Primary specification')=>({name,org,topic,summary,url,level});
   const standards=[
+    S('glTF Transform optimization CLI','glTF Transform','Asset optimization','Official command-line guide for glTF mesh, texture and compression workflows.','https://gltf-transform.dev/cli','Official documentation'),
+    S('KTX 2.0 / Basis Universal','Khronos Group','Texture formats','GPU-oriented KTX2 texture container and Basis Universal workflows.','https://www.khronos.org/ktx/','Official specification overview'),
+    S('Khronos KTX artist guide','Khronos Group','Texture formats','Recommendations for KTX2 texture compression trade-offs and glTF compatibility.','https://github.com/KhronosGroup/3D-Formats-Guidelines/blob/main/KTXArtistGuide.md','Official technical guide'),
     S('model-viewer scene graph and materials','Google / model-viewer project','3D authoring','Official API and examples for glTF material parameters, color, metalness and roughness.','https://modelviewer.dev/examples/scenegraph/','Official documentation'),
     S('glTF Validator','Khronos Group','3D formats','Validate glTF 2.0 and GLB resources and verify compliance after editing.','https://github.khronos.org/glTF-Validator/','Official validator'),
     S('XR Accessibility User Requirements','W3C WAI','Accessibility','Research-based user needs for multimodal accessible immersive XR.','https://www.w3.org/TR/xaur/','W3C Working Group Note'),
@@ -313,8 +316,27 @@ const renderer = new THREE.WebGLRenderer({ antialias: true });
       'Preserve a copy of the original asset: experimental edits do not replace professional material-authoring workflows.'
     ],['The viewer background is not the same thing as an HDR environment or a physical directional light rig.','A material preview does not prove physically accurate colors on a headset or mobile device.','The original model may contain copyrighted content; verify the asset license before republishing.'],'https://modelviewer.dev/examples/scenegraph/')
   );
+  docs.push(
+    D('asset-performance','3D asset budgets for WebXR and mobile','Performance','Intermediate',21,'Learn to assess GLB download weight, texture resolution, geometry complexity and memory before deploying to target hardware.','A GLB file contains JSON scene metadata and binary data such as geometry, embedded images and animation tracks. Compressed download bytes do not equal decompressed GPU memory or rendering cost. Practical optimization starts by measuring the actual asset and device.',[
+      'Load a trusted .glb into the Asset Optimization Lab. Record total bytes, embedded texture bytes, approximate triangles and image dimensions.',
+      'Inspect any very large textures: 2048 px is an illustrative review threshold, not a universal device cap.',
+      'Estimate each uncompressed RGBA image as width × height × 4 bytes; allow for additional mipmaps, rendering buffers and device-specific compression.',
+      'Start with geometry and texture changes that do not remove needed visual details; compare before and after in 3D Model Studio.',
+      'For larger pipelines, use glTF Transform or Blender and evaluate KTX2 / Basis Universal where supported by the target engine.',
+      'Validate output with Khronos glTF Validator and profile it on actual devices with representative scenes.'
+    ],['Triangle counts in the lab are estimates based on glTF primitive types, not a GPU draw-call count or proof of scene complexity.','Lossy image recompression may visibly alter texture colors, roughness and normal maps; verify with side-by-side visual comparison.','A smaller GLB will not necessarily render faster: texture formats, shaders and hardware matter.'],'https://registry.khronos.org/glTF/specs/2.0/glTF-2.0.html'),
+    D('texture-optimization','Texture conversion: JPEG, PNG, WebP and KTX2','3D assets','Intermediate',22,'Choose the right texture packaging strategy for download size, GPU memory and fidelity.','JPEG and PNG textures are straightforward core glTF image formats but commonly expand to GPU pixel buffers. WebP requires an extension such as EXT_texture_webp, while KTX2 uses KHR_texture_basisu and transcoding into GPU-compressed formats supported by the runtime.',[
+      'Inventory texture sizes and classify color, ORM, normal, emissive and opacity maps before choosing compression.',
+      'Use JPEG for photographic opaque base-color images where acceptable; maintain PNG for textures that need alpha or exact lossless pixels.',
+      'Downscale textures only when the intended close-up view permits it. Compare materials under realistic lighting.',
+      'The Asset Optimization Lab can locally re-encode compatible embedded PNG / JPEG images without changing their declared MIME types; complex glTF extensions are analysis-only.',
+      'To author KTX2 textures or compress geometry, use compatible external tools such as glTF Transform and Khronos KTX Software, and test decoder support in the actual renderer.',
+      'Validate every resulting GLB and inspect on both a desktop and representative mobile or XR device.'
+    ],['Converting PNG to JPEG strips alpha and is not performed by the portal’s automatic optimizer.','KTX2 with Basis Universal can save GPU memory but may not be the smallest downloaded file for every asset.','JPEG/PNG recompression through browser canvas can change image metadata, color and small pixel details; retain your original file.'],'https://www.khronos.org/ktx/')
+  );
   const P=(id,name,level,duration,summary,color,lessonIds,outcomes)=>({id,name,level,duration,summary,color,lessonIds,outcomes});
   const paths=[
+    P('optimization','Asset Optimization & Delivery','Intermediate','~90 min','Measure and reduce 3D asset cost while preserving visual quality and validating renderer compatibility.','blue',['asset-performance','texture-optimization','gltf-delivery','pbr-live-editing','xr-frame-budget'],['Read GLB composition and texture size reports','Compare safe repack with optional image recompression','Validate and profile assets on target devices']),
     P('asset-lab','GLB Asset Studio','Beginner to intermediate','~75 min','Prepare a model for reliable real-time viewing, investigate physically based rendering and validate an edited export.','blue',['formats','gltf-delivery','materials','pbr-live-editing','ar-world-scale'],['Inspect and validate a GLB asset','Understand material versus lighting controls','Test and revalidate an edited asset']),
     P('first','Foundations of the Spatial Web','Beginner','~45 min','Understand the landscape and create your first interactive scene.','cyan',['intro','choose','first-scene','formats'],['Know how AR, VR and WebXR differ','Run an editable 3D scene','Select an appropriate output format']),
     P('creator','WebAR Creator','Beginner to intermediate','~55 min','From a 3D object to a device-friendly web-based AR experience.','violet',['webar-guide','model-pipeline','formats','materials'],['Prepare a GLB asset','Understand supported AR launch modes','Validate a simple delivery pipeline']),
@@ -324,6 +346,10 @@ const renderer = new THREE.WebGLRenderer({ antialias: true });
   ];
   const G=(word,definition)=>({word,definition});
   const glossary=[
+    G('BufferView','A range of bytes within a glTF buffer used to represent mesh, animation or embedded image data.'),
+    G('GPU texture footprint','The device memory used by decoded or GPU-compressed textures and mipmaps; not the same as file download size.'),
+    G('Texture atlas','A technique that combines multiple image regions into one texture, often reducing material and draw-call overhead.'),
+    G('Basis Universal','A supercompressed texture format designed for transcoding to GPU-supported block formats.'),
     G('GLB container','Binary package for glTF 2.0 assets, holding JSON and binary chunks, and potentially embedded image and buffer data.'),
     G('Metalness','PBR metallic-roughness factor controlling how much a material behaves like a metal.'),
     G('Roughness','PBR parameter influencing the spread and sharpness of specular highlights.'),
