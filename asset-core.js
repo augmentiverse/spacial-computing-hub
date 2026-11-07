@@ -101,7 +101,7 @@
     if((json.extensionsUsed||[]).length)warnings.push('glTF extensions present. Automatic repacking is restricted to core glTF without extensions.');
     if(entries.some(x=>x.bufferView!==null&&!x.width))warnings.push('Some embedded textures have unrecognised pixel dimensions; memory estimates will be incomplete.');
     if(!warnings.length)warnings.push('No immediate structural warnings detected. Visual testing and Khronos validation are still recommended.');
-    return {fileBytes:fileSize,binBytes:bin?.byteLength||0,jsonBytes:fileSize-(bin?.byteLength||0)-28,meshCount:meshes.length,primitiveCount:primitives,
+    return {fileBytes:fileSize,binBytes:bin?.byteLength||0,jsonBytes:new DataView(model.bytes.buffer,model.bytes.byteOffset,model.bytes.byteLength).getUint32(12,true),meshCount:meshes.length,primitiveCount:primitives,
       triangleEstimate:triangleCount,vertexReferences,materials:(json.materials||[]).length,accessors:(json.accessors||[]).length,
       animationCount:(json.animations||[]).length,textureCount:textures.length,imageCount:images.length,
       images:entries,embeddedTextureBytes:totalTextures,referencedViewBytes:totalBytes,
