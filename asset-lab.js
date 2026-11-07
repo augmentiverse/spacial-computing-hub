@@ -73,6 +73,14 @@
   async function openFile(file){
     if(!active||!file)return;
     const session=active,token=++session.token;
+    session.model=null;session.report=null;session.filename='';
+    $('#ao-opt-fields').disabled=true;$('#ao-export-report').disabled=true;
+    $('#ao-filename').textContent='ANALYZING FILE';
+    $('#ao-metrics').innerHTML=metric('—','Total file size')+metric('—','Images')+metric('—','Triangles')+metric('—','Texture memory');
+    $('#ao-images').innerHTML='<p class="ao-placeholder">Reading a new file…</p>';
+    $('#ao-warnings').innerHTML='<p class="ao-placeholder">Checks will appear after analysis.</p>';
+    $('#ao-stats').textContent='Meshes — · Accessors — · Materials — · Animations —';
+    clearOutput();bar(0);
     if(!/\.glb$/i.test(file.name)){STATUS('Choose a binary .glb file. A .gltf JSON asset is not directly supported.',true);return;}
     if(file.size>C.MAX_FILE||file.size<20){STATUS('GLB must be between 20 bytes and 120 MiB.',true);return;}
     STATUS('Reading file and inspecting glTF binary structure…');
