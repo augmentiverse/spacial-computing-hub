@@ -84,6 +84,10 @@ window.HUB_DATA = (() => {
   );
   const S=(name,org,topic,summary,url,level='Primary specification')=>({name,org,topic,summary,url,level});
   const standards=[
+    S('XR Accessibility User Requirements','W3C WAI','Accessibility','Research-based user needs for multimodal accessible immersive XR.','https://www.w3.org/TR/xaur/','W3C Working Group Note'),
+    S('WebXR Rendering Guide','Mozilla / MDN','WebXR','Frame callbacks, per-eye rendering and timing guidance.','https://developer.mozilla.org/en-US/docs/Web/API/WebXR_Device_API/Rendering','Developer reference'),
+    S('model-viewer AR examples','Google / model-viewer project','WebAR','Comparison of WebXR, Scene Viewer and Quick Look AR entry points.','https://modelviewer.dev/examples/augmentedreality/','Official examples'),
+    S('Three.js PerspectiveCamera','Three.js','Graphics','Vertical field of view and perspective-camera parameters.','https://threejs.org/docs/#api/en/cameras/PerspectiveCamera','Official API documentation'),
     S('WebXR Device API','W3C','WebXR','Immersive XR sessions, reference spaces, inputs and frame scheduling.','https://www.w3.org/TR/webxr/'),
     S('WebXR Augmented Reality Module','W3C / Immersive Web','WebXR','AR-specific immersive session definitions.','https://immersive-web.github.io/webxr-ar-module/','Editor draft'),
     S('WebXR Hit Test','W3C / Immersive Web','WebXR','Ray-based hit testing against real-world features.','https://immersive-web.github.io/hit-test/','Editor draft'),
@@ -244,15 +248,67 @@ const renderer = new THREE.WebGLRenderer({ antialias: true });
       'Offer 2D equivalents and low-motion alternatives where feasible.'
     ],['Large hit targets and forgiving gestures matter more than flashy effects.','Validate with beginners, not just experienced headset users.'],'https://www.w3.org/WAI/')
   );
-  const P=(id,name,level,duration,summary,color,lessonIds,outcomes)=>({id,name,level,duration,summary,color,lessonIds,outcomes});
+// Workbench companion guides — English edition, source-linked and device-aware.
+  docs.push(
+    D('coordinates-matrices','3D coordinates, rotations and camera projection','Web 3D','Beginner',14,'Make sense of X/Y/Z axes, local space, world space, orientation and perspective.','A scene graph tracks objects using nested transformations. A perspective camera transforms 3D coordinates into a 2D image, where apparent size depends on distance and field of view.',[
+      'Identify the scene’s axis convention and its unit scale before editing meshes.',
+      'Distinguish local coordinates from world coordinates: rotating a parent moves its descendants in world space.',
+      'Use yaw, pitch and roll to describe orientation around axes, noting that the order of rotations matters.',
+      'Adjust vertical field of view and camera distance in the Spatial Workbench and compare how the cube appears.',
+      'Use a proper matrix/quaternion library for production transforms, especially with nested rotations.'
+    ],['Perspective projection is not the same as physically calibrated headset optics.','Avoid mixing degrees and radians in custom math.','Keep meaningful numeric measurements and text alternatives alongside a visual 3D explanation.'],'https://threejs.org/docs/#api/en/cameras/PerspectiveCamera'),
+    D('xr-frame-budget','Stereo rendering and practical XR frame budgets','Performance','Intermediate',16,'Estimate the scale of a stereo render workload before measuring on hardware.','A display with refresh rate R provides approximately 1000/R milliseconds per displayed frame. Stereo rendering may involve two eyes at substantial resolution, but pixel counts alone cannot predict GPU performance.',[
+      'Choose a target headset, runtime and refresh rate instead of assuming one universal XR target.',
+      'Record the render-target width and height per eye; do not confuse panel resolution with renderer allocation.',
+      'Multiply width × height × number of views × linear scale² to estimate shaded output pixels.',
+      'Compare several scale values in the Workbench; record the corresponding frame-time budget.',
+      'Profile frame timings, GPU load, overheating, draw calls, material cost and interaction latency on the actual device.'
+    ],['The calculations in this portal are estimates, not device benchmarks.','Refresh rate is a target, not proof that the application can sustain it.','Motion comfort and visual quality must be balanced using real-device tests.'],'https://developer.mozilla.org/en-US/docs/Web/API/WebXR_Device_API/Rendering'),
+    D('ar-world-scale','Plan believable real-world scale for AR objects','WebAR','Beginner',13,'Convert a measured model dimension into a uniform real-world scale multiplier.','An AR preview is convincing only if object dimensions, axes, placement and user expectations agree. glTF uses meters for linear measurements; incorrect authoring scale or transform metadata can still produce surprising results.',[
+      'Choose a known physical dimension, such as the height of an exhibit object in centimeters.',
+      'Inspect the source asset’s axis-aligned bounding dimensions in Blender or a trusted viewer.',
+      'Convert the target centimeters into meters, then divide target height by original model height.',
+      'Apply a uniform multiplier and verify all resulting dimensions in the Workbench.',
+      'Test with a floor or surface reference on the actual target platform; verify pivot, orientation and AR scaling controls.'
+    ],['Uniform scaling preserves proportions only when the source geometry proportions are correct.','Check that a pivot centered in the wrong place is not causing floating or buried placement.','Some AR viewers allow visitors to resize an object; communicate the distinction between life-size and illustrative scale.'],'https://registry.khronos.org/glTF/specs/2.0/glTF-2.0.html'),
+    D('webar-delivery-modes','WebAR launch paths: WebXR, Scene Viewer and Quick Look','WebAR','Intermediate',17,'Understand why one AR button can lead to different runtimes on different devices.','The <model-viewer> web component can prioritize in-browser WebXR and external Android or Apple viewers. These pathways have different UI customization, model-delivery and compatibility behavior.',[
+      'Create a valid, web-optimized GLB model and an ordinary interactive 3D fallback.',
+      'Test a <model-viewer> element with ar and camera-controls over HTTPS.',
+      'Evaluate ar-modes choices such as webxr, scene-viewer and quick-look on supported hardware.',
+      'For iOS Quick Look, test whether generated USDZ meets your content needs or an explicit file is required.',
+      'Document when an experience remains inside the page and when a native viewer takes over.'
+    ],['Do not promise universal AR support or camera tracking on every browser.','Confirm how the AR viewer handles animation, scaling and custom HTML overlays.','Provide an understandable failure message and link back to ordinary 3D viewing.'],'https://modelviewer.dev/examples/augmentedreality/'),
+    D('inclusive-xr','Accessible XR: multimodal interaction and comfort','Human factors','Intermediate',15,'Turn accessibility requirements into concrete choices for interactive spatial experiences.','Inclusive XR requires more than WCAG-compliant surrounding webpages. Users may need motion-independent interaction, alternate navigation, captions, contrast controls and readable spatial landmarks.',[
+      'Give every core action an accessible route that does not require one specific body gesture.',
+      'Support mouse, touch or keyboard alternatives when the immersive capability is unavailable.',
+      'Provide captions, text descriptions and alternatives for spatial audio cues.',
+      'Avoid forced locomotion, uncontrolled flashing and excessive head movement; offer recenter or exit controls.',
+      'Evaluate the experience with relevant assistive technologies and users; verify that critical information is not conveyed by color alone.'
+    ],['A 2D fallback can be the best route to critical educational content.','Respect reduced-motion settings and make high-contrast labels readable against moving scenes.','Accessibility testing must include actual task completion, not only automated scans.'],'https://www.w3.org/TR/xaur/'),
+    D('webxr-readiness','Launch readiness: secure origin, permissions and fallback','WebXR','Intermediate',12,'Build a practical go/no-go checklist for publishing immersive browser applications.','WebXR support depends on secure context, browser implementation, runtime, device and requested features. Permission and consent requirements also apply to potentially sensitive spatial data.',[
+      'Deploy over HTTPS or use a trusted localhost development origin.',
+      'Check navigator.xr and isSessionSupported for the requested immersive mode; handle failure without blocking core content.',
+      'Request immersive sessions only after a clear user gesture and request minimal optional features.',
+      'Provide a visible exit and a non-immersive alternative when spatial tracking is unavailable.',
+      'Test device and runtime combinations, explain any sensitive permissions and revalidate after updates.'
+    ],['Do not confuse detecting navigator.xr with proving immersive-ar support.','Camera permissions and world tracking require clear user trust boundaries.','Record your tested browser/runtime versions alongside publishing dates.'],'https://www.w3.org/TR/webxr/')
+  );
+    const P=(id,name,level,duration,summary,color,lessonIds,outcomes)=>({id,name,level,duration,summary,color,lessonIds,outcomes});
   const paths=[
     P('first','Foundations of the Spatial Web','Beginner','~45 min','Understand the landscape and create your first interactive scene.','cyan',['intro','choose','first-scene','formats'],['Know how AR, VR and WebXR differ','Run an editable 3D scene','Select an appropriate output format']),
     P('creator','WebAR Creator','Beginner to intermediate','~55 min','From a 3D object to a device-friendly web-based AR experience.','violet',['webar-guide','model-pipeline','formats','materials'],['Prepare a GLB asset','Understand supported AR launch modes','Validate a simple delivery pipeline']),
     P('engineer','WebXR Developer','Intermediate','~60 min','Investigate the immersive browser runtime and production constraints.','blue',['xr-lifecycle','first-scene','performance','deployment'],['Detect immersive support','Understand session lifecycle','Apply real-device performance checks']),
+    P('spatial-lab','Spatial Workbench: Camera, Performance & Scale','Beginner to intermediate','~70 min','Connect camera projection, stereo rendering budgets and AR scale mathematics to hands-on browser simulations.','blue',['coordinates-matrices','xr-frame-budget','ar-world-scale','webar-delivery-modes','webxr-readiness'],['Experiment with camera orientation and field of view','Estimate stereo pixel cost','Compute a uniform AR scale factor','Plan realistic supported-device fallbacks']),
     P('heritage','3D Capture & Digital Heritage','Intermediate','~70 min','Create and optimize captured spaces for research, museums and education.','amber',['capture','model-pipeline','materials','accessibility'],['Select mesh or splat representation','Inspect asset size and structure','Plan accessible cultural experiences'])
   ];
   const G=(word,definition)=>({word,definition});
   const glossary=[
+    G('Camera distance','Distance between the projection viewpoint and an object; influences its apparent size under perspective.'),
+    G('Projection matrix','Transformation used to map camera-space geometry into normalized screen coordinates.'),
+    G('Yaw / pitch / roll','Angular rotations used to describe orientation; conventions and rotation order matter.'),
+    G('Stereo view','One of the separate viewpoints rendered for left-eye and right-eye immersive displays.'),
+    G('Render scale','Linear scaling of target render dimensions; a scale of 2 makes the pixel area four times as large.'),
+    G('World scale','The physical-size interpretation of a 3D asset placed in a tracked environment.'),
     G('6DoF','Six degrees of freedom: tracked position (x, y, z) and rotation (yaw, pitch, roll).'),
     G('Anchor','A tracked coordinate relationship used to keep virtual content stable relative to the world.'),
     G('AR','Augmented reality: digital content combined with a view of the real world.'),
