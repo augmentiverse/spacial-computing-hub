@@ -15,5 +15,6 @@ jobs:
           node --check app.js
           node --check data.js
           node --check workbench.js
+          node --check model-studio.js
       - name: Validate catalog and lab routes
         run: node tests/smoke.mjs
