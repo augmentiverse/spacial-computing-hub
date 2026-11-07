@@ -33,6 +33,26 @@ All three modules work without an API key, uploads, a build system or third-part
 
 Run `node tests/smoke.mjs` to validate the JavaScript, catalog entries, hyperlinks, lesson-to-path relationships and workbench markup. GitHub Actions also runs these dependency-free checks on pull requests and on the main branch.
 
+## Edition 03 — 3D Model Studio (preview)
+
+The new `#modelstudio` route adds a working browser-based viewer for **self-contained GLB v2 files** (up to 80 MiB), built with the open-source [`<model-viewer>`](https://modelviewer.dev/) Web Component, version **4.4.0** (Apache-2.0). Its module is loaded only when a user visits the studio, using the official Google-hosted library.
+
+- **Open locally:** select or drop a `.glb` file. The Hub checks the binary header signature, version and declared file length before previewing. The selected model is served to the viewer through a temporary `blob:` URL, not uploaded to the Hub.
+- **Preview:** orbit, zoom, camera reset, optional auto-rotation, and estimated model dimensions in meters.
+- **Lighting and environment:** neutral/legacy presets, exposure, shadow strength/softness and viewport background (viewer settings, not asset changes).
+- **Materials:** choose glTF PBR material, edit base-color, metalness or roughness factors, restore original material factors where available.
+- **Animation:** select and play/pause any included glTF animation clips.
+- **Export:** attempt an edited GLB export via `model-viewer.exportScene({binary:true})` when supported; **revalidate every export** with Khronos glTF Validator and another viewer.
+- **Optional sample:** use the official remote Astronaut model from `modelviewer.dev`; requires an internet connection and may have licensing requirements for redistribution.
+
+### Limits and privacy
+
+Files selected from the local device are not uploaded to our servers, and blob URLs are revoked after navigation. The 3D engine and optional Draco/other decoders are downloaded from their providers on demand, so the studio is **not offline by default**. A GLB referencing external resources might initiate separate network fetches; avoid untrusted assets, and do not interpret this as a secure environment for arbitrary 3D data. The studio does not provide a full Blender-like mesh editor, physically accurate calibration or guaranteed native AR functionality. Export may fail for some asset extensions.
+
+### Credits
+
+`<model-viewer>` by Google and contributors, Apache-2.0 license. Primary documentation: https://modelviewer.dev/docs/ ; materials and scene graph: https://modelviewer.dev/examples/scenegraph/ . glTF specification and validator by Khronos Group.
+
 ## Run
 
 Run a local static server from this directory:
