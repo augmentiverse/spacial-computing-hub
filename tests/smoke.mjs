@@ -6,18 +6,18 @@ import { fileURLToPath } from 'node:url';
 import { dirname, resolve } from 'node:path';
 const here=dirname(fileURLToPath(import.meta.url));
 const source=(name)=>readFileSync(resolve(here,'..',name),'utf8');
-for(const file of ['app.js','data.js','workbench.js','model-studio.js','asset-core.js','asset-lab.js']) new Script(source(file),{filename:file});
+for(const file of ['app.js','data.js','workbench.js','model-studio.js','asset-core.js','asset-lab.js','experience-demos.js','experience-gallery.js']) new Script(source(file),{filename:file});
 const html=source('index.html');
-for(const path of ['styles.css','spectrum.css','workbench.css','model-studio.css','asset-lab.css','data.js','workbench.js','model-studio.js','asset-core.js','asset-lab.js','app.js']){
+for(const path of ['styles.css','spectrum.css','workbench.css','model-studio.css','asset-lab.css','experience-gallery.css','data.js','workbench.js','model-studio.js','asset-core.js','asset-lab.js','experience-demos.js','experience-gallery.js','app.js']){
   assert(html.includes('href="'+path+'"')||html.includes('src="'+path+'"'), 'Missing resource: '+path);
 }
 const windowA={};
 runInNewContext(source('data.js'),{window:windowA});
 const data=windowA.HUB_DATA;
 assert(data,'Catalog must load');
-assert(data.docs.length>=28,'Expected expanded guide library');
-assert(data.standards.length>=26,'Expected official-source expansion');
-assert(data.paths.length>=7,'Expected spatial learning path');
+assert(data.docs.length>=30,'Expected expanded guide library');
+assert(data.standards.length>=29,'Expected official-source expansion');
+assert(data.paths.length>=8,'Expected spatial learning path');
 for(const category of ['docs','technologies','tools']){
   const ids=data[category].map(entry=>entry.id);
   assert.equal(ids.length,new Set(ids).size,'Duplicate ids in '+category);
@@ -65,4 +65,7 @@ assert(source('app.js').includes("id:'assetlab'"),'Optimization lab must be in m
 assert(source('app.js').includes('window.HUB_ASSET_LAB.init()'),'Optimization lab route must initialize');
 assert(data.docs.some(x=>x.id==='asset-performance'),'Missing optimization guide');
 assert(data.docs.some(x=>x.id==='texture-optimization'),'Missing texture guide');
+assert(data.docs.some(x=>x.id==='xr-demo-testing'),'Missing XR testing guide');
+assert(data.docs.some(x=>x.id==='interactive-demo-design'),'Missing demo design guide');
+assert(data.paths.some(x=>x.id==='demo-explorer'),'Missing demo explorer learning path');
 console.log('XR-SC-Hub smoke tests PASS — syntax, routes, catalogs, reference links and lab markup.');
