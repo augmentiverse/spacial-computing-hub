@@ -84,6 +84,9 @@ window.HUB_DATA = (() => {
   );
   const S=(name,org,topic,summary,url,level='Primary specification')=>({name,org,topic,summary,url,level});
   const standards=[
+    S('A-Frame VR Framework','A-Frame','WebXR','Declarative 3D and immersive VR framework, with official usage guides and releases.','https://aframe.io/docs/','Official documentation'),
+    S('Canvas API','Mozilla / MDN','Rendering','Browser 2D drawing, interaction and canvas reference.','https://developer.mozilla.org/en-US/docs/Web/API/Canvas_API','Developer reference'),
+    S('CSS transform-style','Mozilla / MDN','Rendering','Nested 3D CSS transforms and preserve-3d surfaces.','https://developer.mozilla.org/en-US/docs/Web/CSS/transform-style','Developer reference'),
     S('glTF Transform optimization CLI','glTF Transform','Asset optimization','Official command-line guide for glTF mesh, texture and compression workflows.','https://gltf-transform.dev/cli','Official documentation'),
     S('KTX 2.0 / Basis Universal','Khronos Group','Texture formats','GPU-oriented KTX2 texture container and Basis Universal workflows.','https://www.khronos.org/ktx/','Official specification overview'),
     S('Khronos KTX artist guide','Khronos Group','Texture formats','Recommendations for KTX2 texture compression trade-offs and glTF compatibility.','https://github.com/KhronosGroup/3D-Formats-Guidelines/blob/main/KTXArtistGuide.md','Official technical guide'),
@@ -334,8 +337,27 @@ const renderer = new THREE.WebGLRenderer({ antialias: true });
       'Validate every resulting GLB and inspect on both a desktop and representative mobile or XR device.'
     ],['Converting PNG to JPEG strips alpha and is not performed by the portal’s automatic optimizer.','KTX2 with Basis Universal can save GPU memory but may not be the smallest downloaded file for every asset.','JPEG/PNG recompression through browser canvas can change image metadata, color and small pixel details; retain your original file.'],'https://www.khronos.org/ktx/')
   );
+  docs.push(
+    D('xr-demo-testing','From a browser demo to a real immersive experience','WebXR','Intermediate',20,'Separate educational simulations from WebXR-capable applications and verify behavior on actual hardware.','A convincing 3D browser demo is not necessarily AR or VR. CSS 3D, Canvas and WebGL can illustrate interaction or geometry, while immersive sessions require supported WebXR runtimes, explicit feature checks and user consent.',[
+      'Define whether your experiment is a visual simulation, interactive real-time 3D scene or actual immersive session.',
+      'Try an offline demo from the XR Experience Gallery and review its source code.',
+      'Compare it with a connected A-Frame or Three.js example; note which external libraries are downloaded.',
+      'For VR, export the HTML sample and host it over HTTPS; verify session support and consent on compatible hardware.',
+      'Record browser/runtime limitations, loading failures, frame times and accessible fallbacks.',
+      'Publish a compatibility matrix for devices actually tested without generalizing from one success.'
+    ],['In-page sandboxed previews may not permit immersive VR or device tracking, even on supported hardware.','Spatial tracking may involve sensitive device data and requires clear user trust boundaries.','Offline CSS and Canvas examples do not imply camera access, image tracking or world anchoring.'],'https://www.w3.org/TR/webxr/'),
+    D('interactive-demo-design','Design and publish self-contained 3D lessons','Education','Beginner',18,'Develop a clear interactive 3D demonstration with accessible controls, a local baseline and readable source.','A learning-focused scene needs an observable task, helpful feedback and a path toward deeper technical explanations. Browser-based examples can be shared as standalone HTML, sometimes using only CSS and Canvas.',[
+      'Pick one concrete learning goal, such as perspective projection or stereoscopic disparity.',
+      'Start with semantic HTML labels and a readable status before adding graphics.',
+      'Provide meaningful controls, keyboard access, mobile touch behavior and reduced-motion treatment.',
+      'Label simulations accurately: procedural 360 environments are not real-world Street View, and CSS parallax is not tracked AR.',
+      'Inspect errors and test at different viewport sizes using keyboard, pointer and touch.',
+      'Link to official references and disclose network requirements when using CDNs and sample assets.'
+    ],['A standalone HTML file may still require internet for its external JavaScript dependencies.','Sandbox an interactive code preview without giving it same-origin privileges.','Do not execute untrusted downloaded code without considering its provenance.'],'https://developer.mozilla.org/en-US/docs/Web/HTML/Element/iframe')
+  );
   const P=(id,name,level,duration,summary,color,lessonIds,outcomes)=>({id,name,level,duration,summary,color,lessonIds,outcomes});
   const paths=[
+    P('demo-explorer','XR Experience Explorer','Beginner to intermediate','~70 min','Explore spatial graphics, accessible interaction, and device testing with runnable source examples.','blue',['first-scene','coordinates-matrices','interaction-design','interactive-demo-design','xr-demo-testing','webxr-readiness'],['Compare offline and connected 3D scenes','Export a learning example','Distinguish a simulation from real immersive XR']),
     P('optimization','Asset Optimization & Delivery','Intermediate','~90 min','Measure and reduce 3D asset cost while preserving visual quality and validating renderer compatibility.','blue',['asset-performance','texture-optimization','gltf-delivery','pbr-live-editing','xr-frame-budget'],['Read GLB composition and texture size reports','Compare safe repack with optional image recompression','Validate and profile assets on target devices']),
     P('asset-lab','GLB Asset Studio','Beginner to intermediate','~75 min','Prepare a model for reliable real-time viewing, investigate physically based rendering and validate an edited export.','blue',['formats','gltf-delivery','materials','pbr-live-editing','ar-world-scale'],['Inspect and validate a GLB asset','Understand material versus lighting controls','Test and revalidate an edited asset']),
     P('first','Foundations of the Spatial Web','Beginner','~45 min','Understand the landscape and create your first interactive scene.','cyan',['intro','choose','first-scene','formats'],['Know how AR, VR and WebXR differ','Run an editable 3D scene','Select an appropriate output format']),
@@ -346,6 +368,10 @@ const renderer = new THREE.WebGLRenderer({ antialias: true });
   ];
   const G=(word,definition)=>({word,definition});
   const glossary=[
+    G('Sandboxed iframe','An embedded document isolated by browser restrictions, limiting its origin privileges and capabilities.'),
+    G('Stereoscopic disparity','Difference between projected left- and right-eye views used as a binocular depth cue.'),
+    G('Procedural panorama','A generated scene that demonstrates 360° viewing without containing real-world photography.'),
+    G('Progressive enhancement','Building a usable baseline and adding advanced graphics when supported.'),
     G('BufferView','A range of bytes within a glTF buffer used to represent mesh, animation or embedded image data.'),
     G('GPU texture footprint','The device memory used by decoded or GPU-compressed textures and mipmaps; not the same as file download size.'),
     G('Texture atlas','A technique that combines multiple image regions into one texture, often reducing material and draw-call overhead.'),
