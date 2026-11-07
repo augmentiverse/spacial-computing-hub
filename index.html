@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="en" dir="ltr">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="theme-color" content="#090f1c">
+  <meta name="description" content="Spatial Computing Hub: independent English-language reference portal for WebXR, WebAR, VR, AR, 3D tools, standards, converters, learning paths and live experiments.">
+  <meta property="og:title" content="Spatial Computing Hub | Build the spatial web">
+  <meta property="og:description" content="Explore immersive technologies, learn the standards, discover tools and experiment in a safe live playground.">
+  <meta property="og:type" content="website">
+  <title>Spatial Computing Hub — Build the spatial web</title>
+  <link rel="icon" type="image/svg+xml" href="assets/favicon.svg">
+  <link rel="stylesheet" href="styles.css">
+  <script defer src="data.js"></script>
+  <script defer src="app.js"></script>
+</head>
+<body>
+  <a class="skip-link" href="#main-content">Skip to main content</a>
+  <div class="site-shell">
+    <aside class="sidebar" id="sidebar" aria-label="Main navigation">
+      <a class="brand" href="#home" aria-label="Spatial Computing Hub home">
+        <span class="brand-mark" aria-hidden="true"><span></span><span></span><span></span></span>
+        <span class="brand-text"><strong>SPATIAL<span class="brand-accent">·</span>HUB</strong><small>THE IMMERSIVE WEB ATLAS</small></span>
+      </a>
+      <div class="sidebar-scroll">
+        <p class="sidebar-eyebrow">DISCOVER</p>
+        <nav id="main-nav" aria-label="Explore the portal"></nav>
+        <p class="sidebar-eyebrow tools-label">BUILD & EXPERIMENT</p>
+        <nav id="build-nav" aria-label="Builder tools"></nav>
+        <div class="sidebar-guide">
+          <span class="guide-icon" aria-hidden="true">✳</span>
+          <strong>New to spatial computing?</strong>
+          <p>Start from zero and build your first interactive 3D scene.</p>
+          <button type="button" class="guide-link" data-route="paths">Explore learning paths <span aria-hidden="true">↗</span></button>
+        </div>
+      </div>
+      <div class="sidebar-foot"><span class="online-dot" aria-hidden="true"></span> ENGLISH · EDITION 01 <span class="sidebar-year">2026</span></div>
+    </aside>
+
+    <div class="site-main">
+      <header class="topbar">
+        <div class="topbar-left">
+          <button type="button" class="icon-button mobile-menu" id="menu-toggle" aria-label="Open navigation" aria-expanded="false"><span class="hamburger"></span></button>
+          <div class="breadcrumb"><span>EXPLORE</span><span class="crumb-divider">/</span><strong id="breadcrumb-current">Overview</strong></div>
+        </div>
+        <div class="topbar-right">
+          <button type="button" class="search-activator" id="open-search"><svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="11" cy="11" r="7"></circle><path d="m16 16 5 5"></path></svg><span>Search the knowledge hub...</span><kbd>/</kbd></button>
+          <span class="language-pill" title="French and Arabic editions are planned">EN <span aria-hidden="true">⌄</span></span>
+          <a class="topbar-cta" href="#playground">Launch lab <span aria-hidden="true">↗</span></a>
+        </div>
+      </header>
+      <main id="main-content" tabindex="-1" aria-live="polite"></main>
+      <footer class="main-footer"><span>SPATIAL·HUB — Independent reference for the immersive web.</span><span>Built for learning, exploration & open standards · <a href="#references">Source library</a></span></footer>
+    </div>
+  </div>
+  <div class="mobile-overlay" id="mobile-overlay" hidden></div>
+  <dialog class="search-dialog" id="search-dialog" aria-label="Search across the portal">
+    <div class="search-dialog-header"><svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="11" cy="11" r="7"></circle><path d="m16 16 5 5"></path></svg><input id="global-search" type="search" placeholder="Search technologies, tools, tutorials..." autocomplete="off" aria-label="Search portal"><button type="button" class="search-close" id="close-search" aria-label="Close search">ESC</button></div>
+    <div class="search-results" id="search-results"></div>
+    <div class="search-dialog-footer">Search across documentation, technology, tools, formats and standards <span>↵ to open</span></div>
+  </dialog>
+  <div class="toast" id="toast" role="status" aria-live="polite"></div>
+</body>
+</html>
