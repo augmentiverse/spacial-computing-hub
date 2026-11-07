@@ -16,5 +16,9 @@ jobs:
           node --check data.js
           node --check workbench.js
           node --check model-studio.js
+          node --check asset-core.js
+          node --check asset-lab.js
       - name: Validate catalog and lab routes
         run: node tests/smoke.mjs
+      - name: Validate binary GLB parsing and safe repacking
+        run: node tests/asset-core.mjs
