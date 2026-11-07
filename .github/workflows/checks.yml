@@ -1,0 +1,19 @@
+name: XR-SC-Hub checks
+on:
+  pull_request:
+  push:
+    branches: [main, feature/workbench-editorial-v1]
+permissions:
+  contents: read
+jobs:
+  smoke:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Check JavaScript syntax
+        run: |
+          node --check app.js
+          node --check data.js
+          node --check workbench.js
+      - name: Validate catalog and lab routes
+        run: node tests/smoke.mjs
